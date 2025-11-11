@@ -1,4 +1,4 @@
-## Coffee Haven
+## Coffee Flavored
 
 Welcome to **Coffee Haven** — a beautifully brewed website designed for coffee enthusiasts who believe that every sip tells a story.  
 
