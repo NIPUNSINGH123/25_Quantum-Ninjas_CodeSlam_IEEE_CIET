@@ -3,10 +3,1395 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Landing page</title>
+    <title>Flavored - Coffee Shop</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: #ffffff; /* Changed to white for better visibility */
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Video Background */
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            overflow: hidden;
+        }
+
+        .video-background video {
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+        }
+
+        .video-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(58, 34, 32, 0.85); /* Darker overlay for white text */
+            z-index: -1;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Navigation */
+        nav {
+            padding: 1.5rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #3a2220;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        .nav-links li {
+            list-style: none;
+            text-decoration: none;
+        }
+        .nav-links a {
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            color: #3a2220;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: #3a2220;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover {
+            color: #8b5e5a;
+        }
+
+        .btn {
+            padding: 12px 28px;
+            border-radius: 25px;
+            font-weight: 500;
+            display: inline-block;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary-nav {
+            background-color: #3a2220;
+            color: #fff;
+        }
+
+        .btn-primary-nav:hover {
+            background-color: #6d413c;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(74, 44, 42, 0.3);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 10rem 0 6rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease forwards;
+            color: #ffffff;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto 2.5rem;
+            color: #f0f0f0;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease 0.2s forwards;
+            font-weight: 500;
+        }
+
+        .btn-primary {
+            background-color: #ffffff;
+            color: #3a2220;
+            font-size: 1.1rem;
+            padding: 15px 35px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease 0.4s forwards;
+        }
+
+        .btn-primary:hover {
+            background-color: #f0f0f0;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(255, 255, 255, 0.2);
+        }
+
+        /* Coffee Menu Section */
+        .coffee-menu {
+            padding: 5rem 0;
+            position: relative;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+            color: #ffffff;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #f0f0f0;
+            max-width: 700px;
+            margin: 0 auto 4rem;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+            font-weight: 500;
+        }
+
+        .coffee-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .coffee-card {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: all 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            transform: translateY(30px);
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .coffee-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.7s;
+        }
+
+        .coffee-card:hover::before {
+            left: 100%;
+        }
+
+        .coffee-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .coffee-image {
+            width: 100%;
+            height: 200px;
+            border-radius: 15px;
+            object-fit: cover;
+            margin-bottom: 1.5rem;
+            transition: transform 0.4s ease;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .coffee-card:hover .coffee-image {
+            transform: scale(1.05);
+        }
+
+        .coffee-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+
+        .coffee-name {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+
+        .coffee-description {
+            color: #f0f0f0;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+            font-weight: 500;
+        }
+
+        /* Coffee Sizes and Pricing */
+        .coffee-sizes {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 12px;
+        }
+
+        .size-option {
+            text-align: center;
+            flex: 1;
+            padding: 8px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .size-option:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .size-option.active {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .size-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 5px;
+        }
+
+        .size-price {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .coffee-use {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 12px;
+            font-style: italic;
+            color: #f0f0f0;
+            border-left: 4px solid #d4a574;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .coffee-card:hover .coffee-use {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateX(5px);
+        }
+
+        /* Products Section */
+        .products {
+            padding: 4rem 0;
+            position: relative;
+        }
+
+        .products-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 3rem;
+            align-items: start;
+        }
+
+        .product-card {
+            background-color: rgba(255, 255, 255, 0.15);
+            border-radius: 25px;
+            padding: 1.5rem;
+            position: relative;
+            padding-top: 100px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: all 0.4s ease;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(30px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .product-image-container {
+            width: 150px;
+            height: 150px;
+            position: absolute;
+            top: -75px;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: transform 0.4s ease;
+        }
+
+        .product-card:hover .product-image-container {
+            transform: translateX(-50%) scale(1.1);
+        }
+
+        .product-card-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            transition: transform 0.4s ease;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .product-card:hover .product-card-img {
+            transform: rotate(10deg);
+        }
+
+        .product-card-content h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #ffffff;
+        }
+
+        .product-card-content p {
+            font-size: 0.9rem;
+            color: #f0f0f0;
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+
+        .product-card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .product-card-icons {
+            display: flex;
+            gap: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .product-card-icons span {
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            color: #ffffff;
+        }
+
+        .product-card-icons span:hover {
+            transform: scale(1.2);
+        }
+
+        .btn-price {
+            background-color: #ffffff;
+            color: #3a2220;
+            font-weight: 700;
+            padding: 10px 24px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-price:hover {
+            background-color: #f0f0f0;
+            transform: scale(1.05);
+        }
+
+        .products-text {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .products-text h2 {
+            font-size: 2.5rem;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            color: #ffffff;
+        }
+
+        .products-text p {
+            margin-bottom: 2rem;
+            color: #f0f0f0;
+            font-weight: 500;
+        }
+
+        /* Promo Section */
+        .promo {
+            padding: 6rem 0;
+            position: relative;
+        }
+
+        .promo-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .promo-text h2 {
+            font-size: 2.8rem;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            color: #ffffff;
+        }
+
+        .promo-text p {
+            font-size: 1rem;
+            max-width: 500px;
+            margin-bottom: 2rem;
+            color: #f0f0f0;
+            font-weight: 500;
+        }
+
+        .promo-image {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .promo-image img {
+            width: 100%;
+            max-width: 450px;
+            border-radius: 50%;
+            filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.3));
+            transition: transform 0.5s ease;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .promo-image:hover img {
+            transform: rotate(5deg) scale(1.05);
+        }
+
+        .price-tag {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 12px 18px;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #3a2220;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .promo-image:hover .price-tag {
+            transform: scale(1.1);
+            background-color: rgba(255, 255, 255, 0.95);
+        }
+
+        /* App Promo Section */
+        .app-promo {
+            padding: 6rem 0;
+            position: relative;
+        }
+
+        .app-promo-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .app-screens {
+            position: relative;
+            min-height: 600px;
+        }
+
+        .app-screen-back,
+        .app-screen-front {
+            position: absolute;
+            width: 100%;
+            max-width: 300px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            transition: all 0.5s ease;
+        }
+
+        .app-screen-back {
+            top: 0;
+            left: 20px;
+            z-index: 1;
+            opacity: 0.8;
+            transform: rotate(-5deg);
+        }
+
+        .app-screen-front {
+            top: 60px;
+            left: 100px;
+            z-index: 2;
+        }
+
+        .app-screens:hover .app-screen-back {
+            transform: rotate(-8deg) translateY(-10px);
+        }
+
+        .app-screens:hover .app-screen-front {
+            transform: translateY(-10px);
+        }
+
+        .app-text h2 {
+            font-size: 2.8rem;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            color: #ffffff;
+        }
+
+        .app-text p {
+            font-size: 1rem;
+            max-width: 500px;
+            margin-bottom: 2rem;
+            color: #f0f0f0;
+            font-weight: 500;
+        }
+
+        .store-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .store-btn {
+            display: inline-block;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            padding: 10px 18px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #3a2220;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .store-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+            background-color: rgba(255, 255, 255, 0.95);
+        }
+
+        /* CTA Section */
+        .cta {
+            padding: 4rem 0;
+            position: relative;
+        }
+
+        .cta-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .cta-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-subtitle {
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            color: #f0f0f0;
+            margin-bottom: 0.25rem;
+        }
+
+        .cta-text h2 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .btn-dark {
+            background-color: #ffffff;
+            color: #3a2220;
+            padding: 16px 32px;
+            border-radius: 30px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-dark:hover {
+            background-color: #f0f0f0;
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(255, 255, 255, 0.2);
+        }
+
+        .cta-description {
+            max-width: 600px;
+            color: #f0f0f0;
+            line-height: 1.6;
+            font-weight: 500;
+        }
+
+        /* Footer */
+        footer {
+            padding: 6rem 0 4rem;
+            background: rgba(58, 34, 32, 0.9);
+            margin-top: 4rem;
+            position: relative;
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .footer-col .logo {
+            font-size: 1.8rem;
+            display: block;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+
+        .footer-col p {
+            color: #f0f0f0;
+            font-size: 1rem;
+            line-height: 1.6;
+            font-weight: 500;
+        }
+
+        .footer-col h4 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: #ffffff;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-col ul li a {
+            color: #f0f0f0;
+            transition: color 0.3s ease;
+            position: relative;
+            font-weight: 500;
+        }
+
+        .footer-col ul li a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: -2px;
+            left: 0;
+            background-color: #f0f0f0;
+            transition: width 0.3s ease;
+        }
+
+        .footer-col ul li a:hover::after {
+            width: 100%;
+        }
+
+        .footer-col ul li a:hover {
+            color: #ffffff;
+        }
+
+        /* Floating Action Button */
+        .floating-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background-color: #ffffff;
+            color: #3a2220;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .floating-btn:hover {
+            transform: scale(1.1);
+            background-color: #f0f0f0;
+        }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background-color: #ffffff;
+            color: #3a2220;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            transform: scale(1.1);
+            background-color: #f0f0f0;
+        }
+
+        /* Coffee Counter */
+        .coffee-counter {
+            position: fixed;
+            top: 100px;
+            right: 30px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            z-index: 999;
+            text-align: center;
+            font-weight: 600;
+            color: #3a2220;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        /* Scroll animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 3rem;
+            }
+
+            .coffee-grid,
+            .products-container {
+                grid-template-columns: 1fr;
+            }
+
+            .promo-container,
+            .app-promo-container,
+            .footer-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .section-title {
+                font-size: 2.2rem;
+            }
+            
+            .app-screens {
+                min-height: 400px;
+            }
+            
+            .app-screen-back,
+            .app-screen-front {
+                max-width: 250px;
+            }
+            
+            .app-screen-front {
+                left: 50px;
+            }
+            
+            .cta-top {
+                flex-direction: column;
+                text-align: center;
+                gap: 2rem;
+            }
+
+            .floating-btn, .back-to-top {
+                bottom: 20px;
+                right: 20px;
+            }
+
+            .coffee-counter {
+                top: 80px;
+                right: 20px;
+            }
+            
+            .coffee-sizes {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
 </head>
 <body>
+    <!-- Video Background -->
+    <div class="video-background">
+        <video autoplay muted loop playsinline>
+            <source src="Media_Files/VideoCofee.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="video-overlay"></div>
+    </div>
 
-    <h1>Heading</h1>
+    <!-- Coffee Counter -->
+    <div class="coffee-counter">
+        <i class="fas fa-coffee"></i>
+        <div>Coffees Served Today: <span id="coffee-count">127</span></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="container nav-container">
+            <a href="#" class="logo">Flavored ☕</a>
+            <ul class="nav-links">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Coffee Menu</a></li>
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Contact us</a></li>
+            </ul>
+            <a href="#" class="btn btn-primary-nav">Coffee Bean</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Discover the Perfect<br>Coffee Experience</h1>
+            <p>From rich espresso to refreshing cold brews, explore our carefully crafted selection of premium coffees.</p>
+            <a href="#" class="btn btn-primary">View Full Menu</a>
+        </div>
+    </section>
+
+    <!-- Coffee Menu Section -->
+    <section class="coffee-menu">
+        <div class="container">
+            <h2 class="section-title fade-in">Our Coffee Selection</h2>
+            <p class="section-subtitle fade-in">Each coffee is carefully crafted to deliver a unique experience, from bold and intense to smooth and creamy.</p>
+            
+            <div class="coffee-grid">
+                <!-- Coffee Card 1 -->
+                <div class="coffee-card fade-in">
+                    <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Espresso" class="coffee-image">
+                    <div class="coffee-icon">☕</div>
+                    <h3 class="coffee-name">Espresso</h3>
+                    <p class="coffee-description">A rich, concentrated shot of coffee brewed by forcing hot water through finely-ground coffee beans.</p>
+                    
+                    <!-- Size Options -->
+                    <div class="coffee-sizes">
+                        <div class="size-option active">
+                            <div class="size-label">Small</div>
+                            <div class="size-price">$2.50</div>
+                        </div>
+                        <div class="size-option">
+                            <div class="size-label">Medium</div>
+                            <div class="size-price">$3.50</div>
+                        </div>
+                        <div class="size-option">
+                            <div class="size-label">Large</div>
+                            <div class="size-price">$4.50</div>
+                        </div>
+                    </div>
+                    
+                    <div class="coffee-use">Serves as the base for many other drinks like cappuccino, latte, and macchiato.</div>
+                </div>
+                
+                <!-- Coffee Card 2 -->
+                <div class="coffee-card fade-in">
+                    <img src="https://images.unsplash.com/photo-1561047029-3000c68339ca?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Americano" class="coffee-image">
+                    <div class="coffee-icon">🌿</div>
+                    <h3 class="coffee-name">Americano</h3>
+                    <p class="coffee-description">Made by diluting espresso with hot water, giving a lighter taste while keeping that strong espresso flavor.</p>
+                    
+                    <!-- Size Options -->
+                    <div class="coffee-sizes">
+                        <div class="size-option active">
+                            <div class="size-label">Small</div>
+                            <div class="size-price">$3.00</div>
+                        </div>
+                        <div class="size-option">
+                            <div class="size-label">Medium</div>
+                            <div class="size-price">$4.00</div>
+                        </div>
+                        <div class="size-option">
+                            <div class="size-label">Large</div>
+                            <div class="size-price">$5.00</div>
+                        </div>
+                    </div>
+                    
+                    <div class="coffee-use">Ideal for those who prefer a smooth, less intense cup without milk.</div>
+                </div>
+                
+                <!-- Coffee Card 3 -->
+                <div class="coffee-card fade-in">
+                    <img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Cappuccino" class="coffee-image">
+                    <div class="coffee-icon">🥛</div>
+                    <h3 class="coffee-name">Cappuccino</h3>
+                    <p class="coffee-description">A classic Italian coffee made with equal parts espresso, steamed milk, and milk foam.</p>
+                    
+                    <!-- Size Options -->
+                    <div class="coffee-sizes">
+                        <div class="size-option active">
+                            <div class="size-label">Small</div>
+                            <div class="size-price">$3.50</div>
+                        </div>
+                        <div class="size-option">
+                            <div class="size-label">Medium</div>
+                            <div class="size-price">$4.50</div>
+                        </div>
+                        <div class="size-option">
+                            <div class="size-label">Large</div>
+                            <div class="size-price">$5.50</div>
+                        </div>
+                    </div>
+                    
+                    <div class="coffee-use">Perfect for morning coffee lovers who enjoy a creamy yet balanced flavor.</div>
+                </div>
+                
+                <!-- Coffee Card 4 -->
+                <div class="coffee-card fade-in">
+                    <img src="https://images.unsplash.com/photo-1561047029-3000c68339ca?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Latte" class="coffee-image">
+                    <div class="coffee-icon">🍶</div>
+                    <h3 class="coffee-name">Latte</h3>
+                    <p class="coffee-description">A smooth blend of espresso and steamed milk topped with light foam.</p>
+                    
+                    <!-- Size Options -->
+                    <div class="coffee-sizes">
+                        <div class="size-option active">
+                            <div class="size-label">Small</div>
+                            <div class="size-price">$4.00</div>
+                        </div>
+                        <div class="size-option">
+                            <div class="size-label">Medium</div>
+                            <div class="size-price">$5.00</div>
+                        </div>
+                        <div class="size-option">
+                            <div class="size-label">Large</div>
+                            <div class="size-price">$6.00</div>
+                        </div>
+                    </div>
+                    
+                    <div class="coffee-use">Great for those who prefer a mild coffee flavor — often customized with vanilla, caramel, or hazelnut syrups.</div>
+                </div>
+                
+                <!-- Coffee Card 5 -->
+                <div class="coffee-card fade-in">
+                    <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Mocha" class="coffee-image">
+                    <div class="coffee-icon">🍫</div>
+                    <h3 class="coffee-name">Mocha</h3>
+                    <p class="coffee-description">A sweet twist combining espresso, chocolate syrup, and steamed milk, topped with whipped cream.</p>
+                    
+                    <!-- Size Options -->
+                    <div class="coffee-sizes">
+                        <div class="size-option active">
+                            <div class="size-label">Small</div>
+                            <div class="size-price">$4.50</div>
+                        </div>
+                        <div class="size-option">
+                            <div class="size-label">Medium</div>
+                            <div class="size-price">$5.50</div>
+                        </div>
+                        <div class="size-option">
+                            <div class="size-label">Large</div>
+                            <div class="size-price">$6.50</div>
+                        </div>
+                    </div>
+                    
+                    <div class="coffee-use">Perfect for chocolate and coffee lovers alike.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products">
+        <div class="container products-container">
+            <div class="product-card fade-in">
+                <div class="product-image-container">
+                    <img src="https://i.imgur.com/v2YdQfD.png" alt="Americano" class="product-card-img">
+                </div>
+                <div class="product-card-content">
+                    <h3>Americano</h3>
+                    <p>100% Natural Arabica or Robusta, 20 ml cup</p>
+                    <div class="product-card-footer">
+                        <div class="product-card-icons">
+                            <span>🛒</span> <span>❤</span>
+                        </div>
+                        <a href="#" class="btn btn-price">$2.50</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card fade-in">
+                <div class="product-image-container">
+                    <img src="https://i.imgur.com/uW6hJhG.png" alt="Cappuccino" class="product-card-img">
+                </div>
+                <div class="product-card-content">
+                    <h3>Cappuccino</h3>
+                    <p>Coffee 50%, milk 50%, 280 ml</p>
+                    <div class="product-card-footer">
+                        <div class="product-card-icons">
+                            <span>🛒</span> <span>❤</span>
+                        </div>
+                        <a href="#" class="btn btn-price">$2.00</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="products-text fade-in">
+                <h2>Lorem Ipsum is simply dummy text of</h2>
+                <p>Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
+                <a href="#" class="btn btn-primary">Learn More</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Promo Section -->
+    <section class="promo">
+        <div class="container promo-container">
+            <div class="promo-text fade-in">
+                <h2>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h2>
+                <p>Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+                <a href="#" class="btn btn-primary">Learn More</a>
+            </div>
+            
+            <div class="promo-image-wrapper fade-in">
+                <div class="promo-image">
+                    <img src="https://i.imgur.com/Qk1s1hT.png" alt="Latte Art with Coffee Beans">
+                    <div class="price-tag">
+                        $2.50
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- App Promo Section -->
+    <section class="app-promo">
+        <div class="container app-promo-container">
+            <div class="app-screens fade-in">
+                <img src="https://i.imgur.com/g8K7F7d.png" alt="App screen 1" class="app-screen-back">
+                <img src="https://i.imgur.com/QpB9XvJ.png" alt="App screen 2" class="app-screen-front">
+            </div>
+            
+            <div class="app-text fade-in">
+                <h2>App is Available</h2>
+                <p>Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+                <div class="store-buttons">
+                    <a href="#" class="store-btn"></a>
+                    <a href="#" class="store-btn">►</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="cta-container">
+            <div class="cta-top fade-in">
+                <div class="cta-text">
+                    <p class="cta-subtitle">LET'S TALK</p>
+                    <h2>Want to Reserve a Table?</h2>
+                </div>
+                <div class="cta-button">
+                    <a href="#" class="btn btn-dark">Contact Now</a>
+                </div>
+            </div>
+            
+            <p class="cta-description fade-in">
+                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type.
+            </p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-container">
+            <div class="footer-col">
+                <a href="#" class="logo">Flavored ☕</a>
+                <p>Wake up to something special. Our carefully selected beans and expert brewing methods ensure every cup is a moment to savor.</p>
+            </div>
+            
+            <div class="footer-col">
+                <h4>Our Services</h4>
+                <ul>
+                    <li><a href="#">Coffee Catering</a></li>
+                    <li><a href="#">Bean Subscription</a></li>
+                    <li><a href="#">Brewing Classes</a></li>
+                    <li><a href="#">Private Events</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-col">
+                <h4>Our Company</h4>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Our Story</a></li>
+                    <li><a href="#">Locations</a></li>
+                    <li><a href="#">Careers</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-col">
+                <h4>Contact Us</h4>
+                <p>123 Coffee Street<br>Brewville, CA 90210<br>contact@flavored.com<br>(555) 123-4567</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating Action Button -->
+    <div class="floating-btn pulse">
+        <i class="fas fa-coffee"></i>
+    </div>
+
+    <!-- Back to Top Button -->
+    <div class="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <script>
+        // Scroll animations
+        const fadeElements = document.querySelectorAll('.fade-in');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        fadeElements.forEach(element => {
+            observer.observe(element);
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('nav');
+            const backToTop = document.querySelector('.back-to-top');
+            
+            if (window.scrollY > 50) {
+                navbar.style.padding = '1rem 0';
+                navbar.style.boxShadow = '0 5px 20px rgba(0, 0, 0, 0.1)';
+            } else {
+                navbar.style.padding = '1.5rem 0';
+                navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+            }
+            
+            // Show/hide back to top button
+            if (window.scrollY > 300) {
+                backToTop.classList.add('show');
+            } else {
+                backToTop.classList.remove('show');
+            }
+        });
+
+        // Coffee card click effect
+        const coffeeCards = document.querySelectorAll('.coffee-card');
+        
+        coffeeCards.forEach(card => {
+            card.addEventListener('click', function() {
+                this.style.transform = 'translateY(-10px) scale(1.02)';
+                setTimeout(() => {
+                    this.style.transform = 'translateY(-10px) scale(1.02)';
+                }, 150);
+            });
+        });
+
+        // Size selection functionality
+        const sizeOptions = document.querySelectorAll('.size-option');
+        
+        sizeOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                // Remove active class from all options in the same card
+                const parentCard = this.closest('.coffee-card');
+                const allOptions = parentCard.querySelectorAll('.size-option');
+                allOptions.forEach(opt => opt.classList.remove('active'));
+                
+                // Add active class to clicked option
+                this.classList.add('active');
+            });
+        });
+
+        // Button ripple effect
+        const buttons = document.querySelectorAll('.btn');
+        
+        buttons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const ripple = document.createElement('span');
+                const rect = this.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+                
+                ripple.style.width = ripple.style.height = size + 'px';
+                ripple.style.left = x + 'px';
+                ripple.style.top = y + 'px';
+                ripple.classList.add('ripple');
+                
+                this.appendChild(ripple);
+                
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
+            });
+        });
+
+        // Back to top functionality
+        document.querySelector('.back-to-top').addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Floating button functionality
+        document.querySelector('.floating-btn').addEventListener('click', function() {
+            alert('Order your favorite coffee now! ☕');
+        });
+
+        // Coffee counter animation
+        function animateCounter() {
+            const counter = document.getElementById('coffee-count');
+            let count = parseInt(counter.textContent);
+            
+            setInterval(() => {
+                count += Math.floor(Math.random() * 3) + 1;
+                counter.textContent = count;
+            }, 5000);
+        }
+
+        // Add ripple effect styles
+        const style = document.createElement('style');
+        style.textContent = `
+            .ripple {
+                position: absolute;
+                border-radius: 50%;
+                background-color: rgba(255, 255, 255, 0.7);
+                transform: scale(0);
+                animation: ripple-animation 0.6s linear;
+            }
+            @keyframes ripple-animation {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Initialize counter animation
+        animateCounter();
+    </script>
 </body>
 </html>hi
