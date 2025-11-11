@@ -30,10 +30,9 @@ This website showcases different **types of coffee**, their unique characteristi
 | Filter Coffee | Authentic. Earthy. Classic. |
 
 ## 🧠 Tech Stack
-- **Frontend:** HTML, CSS, JavaScript  
-- **Frameworks (optional):** Bootstrap / Tailwind CSS  
+- **Frontend:** HTML, CSS, JavaScript 
 - **Icons & Fonts:** Google Fonts, Font Awesome  
-- **Hosting:** GitHub Pages / Netlify  
+- **Hosting:** GitHub
 
 ## 🚀 Getting Started
 1. Clone the repository  
