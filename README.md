@@ -1,6 +1,6 @@
 ## Flavored
 
-Welcome to **Coffee Haven** — a beautifully brewed website designed for coffee enthusiasts who believe that every sip tells a story.  
+Welcome to **Flavored** — a beautifully brewed website designed for coffee enthusiasts who believe that every sip tells a story.  
 
 ## 🌟 Overview
 This website showcases different **types of coffee**, their unique characteristics, and their uses. Each coffee type is presented with minimalist content and keyword-based descriptions to create a modern and aesthetic experience.
